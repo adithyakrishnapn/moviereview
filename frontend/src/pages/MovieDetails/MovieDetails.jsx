@@ -570,7 +570,8 @@ const Movie = () => {
                   className={`w-full py-3 rounded-lg font-semibold transition-colors ${inWatchlist ? 'bg-gray-300 text-gray-700' : 'bg-red-600 text-white hover:bg-red-700'}`}
                   onClick={async () => {
                     if (!user?.id || !movie?.imdbID) {
-                      alert('User or movie not found!');
+                      alert('Please login first');
+                      navigate('/login');
                       console.log('User or movie not found!');
                       return;
                     }
