@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
     // Send it as HttpOnly cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // true in production (HTTPS)
+      secure: true, // true in production (HTTPS)
       sameSite: "strict",
       maxAge: 60 * 60 * 1000, // 1 hour
     });
