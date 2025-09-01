@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Get } from "../services/api";
@@ -9,8 +9,6 @@ const Header = () => {
   console.log("Header user:", user);
   const location = useLocation();
   const navigate = useNavigate();
-
-
 
   const handleLogout = async () => {
     await logout();
@@ -57,7 +55,36 @@ const Header = () => {
               </Link>
             ))}
           </nav>
-          
+
+          {/* Search & Auth Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
+            {user ? (
+              <>
+                <Link to={`/profile/${user.id}`}>
+                  <span>{user.username}</span>
+                </Link>
+                <button
+                  className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/signup">
+                  <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors">
+                    Sign Up
+                  </button>
+                </Link>
+                <Link to="/login">
+                  <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors">
+                    Log In
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -107,12 +134,46 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-2">
-                <input
-                  type="text"
-                  placeholder="Search movies..."
-                  className="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:border-red-500 focus:outline-none"
-                />
+
+              {/* Auth Section */}
+              <div className="pt-4 flex flex-col space-y-2">
+                {user ? (
+                  <>
+                    <Link
+                      to={`/profile/${user.id}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="px-4 py-2 rounded-lg bg-gray-800 text-gray-200 hover:bg-gray-700"
+                    >
+                      {user.username}
+                    </Link>
+                    <button
+                      className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/signup"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-center"
+                    >
+                      Sign Up
+                    </Link>
+                    <Link
+                      to="/login"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-center"
+                    >
+                      Log In
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
